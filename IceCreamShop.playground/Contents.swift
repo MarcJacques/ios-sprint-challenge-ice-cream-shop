@@ -3,13 +3,15 @@ enum Rating: String {
     case GOOD = "* * * *"
     case BEST = "* * * * *"
 }
-enum Toppings: Double {
-    case none = 0.00
-    case sprinkles = 0.50
-    case hotFudge = 0.99
-    case cookieDough = 0.55
-    case whippedCream = 0.10
+enum Toppings: String {
+    case none
+    case sprinkles
+    case hotFudge
+    case cookieDough
+    case whippedCream
 }
+
+
 
 struct Flavor {
     let name: String
@@ -74,11 +76,28 @@ func listTopFlavors() {
 }
 
 listTopFlavors()
+var toppingsPrice = 0.0
+func addToppingsToPrice(toppings: IceCream) -> Double {
+    switch toppings.toppings {
+    case .cookieDough, .sprinkles:
+        return toppingsPrice = 0.50
+    case .hotFudge, .whippedCream:
+        return toppingsPrice = 0.99
+    default:
+        return toppingsPrice = 0.0
+    }
+}
 
 func orderCone(order: IceCream) -> IceCream? {
     let iceCreamOrder = order
-    myCreamsicles.totalSales += (iceCreamOrder.size.rawValue + iceCreamOrder.toppings.rawValue)
-    print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name). Your total is \(myCreamsicles.totalSales)")
+    
+    if iceCreamOrder.toppings == .none {
+        myCreamsicles.totalSales += (iceCreamOrder.size.rawValue)
+        print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name). Your total is \(myCreamsicles.totalSales)")
+    } else {
+        myCreamsicles.totalSales += (iceCreamOrder.size.rawValue + addToppingsToPrice(toppings: iceCreamOrder))
+        print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name) with \(iceCreamOrder.toppings). Your total is \(myCreamsicles.totalSales)")
+    }
     return iceCreamOrder
 }
 
