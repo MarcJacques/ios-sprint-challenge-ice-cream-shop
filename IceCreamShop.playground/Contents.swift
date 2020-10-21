@@ -3,16 +3,23 @@ enum Rating: String {
     case GOOD = "* * * *"
     case BEST = "* * * * *"
 }
+enum Toppings: Double {
+    case none = 0.00
+    case sprinkles = 0.50
+    case hotFudge = 0.99
+    case cookieDough = 0.55
+    case whippedCream = 0.10
+}
 
 struct Flavor {
     let name: String
     let rating: Rating
 }
 
-
-let favoriteFlavor = Flavor(name: "Vanilla", rating: .BEST )
-let secondFavorite = Flavor(name: "Cheesecake", rating: .BEST)
-let reallyGreatIceCream = Flavor(name: "Oreo", rating: .BEST)
+let orangeCreamsicle = Flavor(name: "Creamsicle", rating: .BEST)
+let favoriteFlavor = Flavor(name: "Vanilla", rating: .GOOD )
+let secondFavorite = Flavor(name: "Cheesecake", rating: .GOOD)
+let reallyGreatIceCream = Flavor(name: "Oreo", rating: .GOOD)
 
 enum Size: Double {
     case small = 3.99
@@ -22,26 +29,26 @@ enum Size: Double {
 
 struct Cone {
     let flavor: String
-    let toppings: String
     
     func eat() {
         print("Mmmm! I love \(flavor)")
     }
 }
 
-let cone1 = Cone(flavor: "Plain", toppings: "none")
-let cone2 = Cone(flavor: "Waffle", toppings: "Toasted waffles")
-let rainboowCone = Cone(flavor: "Rainbow", toppings: "Rainbow sprinkles")
+let cone1 = Cone(flavor: "Plain")
+let cone2 = Cone(flavor: "Waffle")
+let rainbowCone = Cone(flavor: "Rainbow")
 
 struct IceCream {
     let flavor: Flavor
     let cone: Cone
     let size: Size
+    let toppings: Toppings
 }
 
-let VanillaCream = IceCream(flavor: favoriteFlavor, cone: rainboowCone, size: .medium)
-let CheeseCakeIce = IceCream(flavor: secondFavorite, cone: cone2, size: .medium)
-let OreoIceCream = IceCream(flavor: reallyGreatIceCream, cone: cone1, size: .medium)
+let VanillaCream = IceCream(flavor: favoriteFlavor, cone: rainbowCone, size: .medium, toppings: .sprinkles)
+let CheeseCakeIce = IceCream(flavor: secondFavorite, cone: cone2, size: .medium, toppings: .cookieDough)
+let OreoIceCream = IceCream(flavor: reallyGreatIceCream, cone: cone1, size: .medium, toppings: .whippedCream)
 let menu :[IceCream] = [VanillaCream, CheeseCakeIce, OreoIceCream]
 
 class IceCreamShop {
@@ -53,6 +60,27 @@ class IceCreamShop {
         self.totalSales = 0.00
     }
 }
+let myCreamsicles = IceCreamShop(menu: menu)
+func listTopFlavors() {
+    
+    var index = 1
+    
+    for flavor in menu {
+        if flavor.flavor.rating == .BEST {
+            print("Top Flavor #\(index): \(flavor.flavor.name)")
+            index += 1
+        }
+    }
+}
+
+listTopFlavors()
+
+func orderCone(order: IceCream) -> IceCream? {
+    let iceCreamOrder = order
+    myCreamsicles.totalSales += (iceCreamOrder.size.rawValue + iceCreamOrder.toppings.rawValue)
+    print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name). Your total is \(myCreamsicles.totalSales)")
+    return iceCreamOrder
+}
 
 
-
+orderCone(order: VanillaCream)
