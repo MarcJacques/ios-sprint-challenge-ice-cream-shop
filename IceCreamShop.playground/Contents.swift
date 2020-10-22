@@ -38,8 +38,11 @@ struct Cone {
 }
 
 let cone1 = Cone(flavor: "Plain")
+cone1.eat()
 let cone2 = Cone(flavor: "Waffle")
+cone2.eat()
 let rainbowCone = Cone(flavor: "Rainbow")
+rainbowCone.eat()
 
 struct IceCream {
     let flavor: Flavor
@@ -48,10 +51,10 @@ struct IceCream {
     let toppings: Toppings
 }
 
-let VanillaCream = IceCream(flavor: favoriteFlavor, cone: rainbowCone, size: .medium, toppings: .sprinkles)
-let CheeseCakeIce = IceCream(flavor: secondFavorite, cone: cone2, size: .medium, toppings: .cookieDough)
-let OreoIceCream = IceCream(flavor: reallyGreatIceCream, cone: cone1, size: .medium, toppings: .whippedCream)
-let menu :[IceCream] = [VanillaCream, CheeseCakeIce, OreoIceCream]
+let vanillaCream = IceCream(flavor: favoriteFlavor, cone: rainbowCone, size: .medium, toppings: .sprinkles)
+let cheeseCakeIce = IceCream(flavor: secondFavorite, cone: cone2, size: .medium, toppings: .cookieDough)
+let oreoIceCream = IceCream(flavor: reallyGreatIceCream, cone: cone1, size: .medium, toppings: .whippedCream)
+let menu :[IceCream] = [vanillaCream, cheeseCakeIce, oreoIceCream]
 
 class IceCreamShop {
     let menu: [IceCream]
@@ -76,16 +79,20 @@ func listTopFlavors() {
 }
 
 listTopFlavors()
+
 var toppingsPrice = 0.0
+
 func addToppingsToPrice(toppings: IceCream) -> Double {
+    
     switch toppings.toppings {
     case .cookieDough, .sprinkles:
-        return toppingsPrice = 0.50
+        toppingsPrice = 0.50
     case .hotFudge, .whippedCream:
-        return toppingsPrice = 0.99
+        toppingsPrice = 0.99
     default:
-        return toppingsPrice = 0.0
+        toppingsPrice = 0.0
     }
+    return toppingsPrice
 }
 
 func orderCone(order: IceCream) -> IceCream? {
@@ -96,10 +103,20 @@ func orderCone(order: IceCream) -> IceCream? {
         print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name). Your total is \(myCreamsicles.totalSales)")
     } else {
         myCreamsicles.totalSales += (iceCreamOrder.size.rawValue + addToppingsToPrice(toppings: iceCreamOrder))
-        print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name) with \(iceCreamOrder.toppings). Your total is \(myCreamsicles.totalSales)")
+        print("You ordered a \(iceCreamOrder.size) \(iceCreamOrder.flavor.name) with \(iceCreamOrder.toppings). Your total is \(myCreamsicles.totalSales). :) ")
     }
     return iceCreamOrder
 }
 
 
-orderCone(order: VanillaCream)
+orderCone(order: vanillaCream)
+myCreamsicles.totalSales
+
+let theOrangeCreamsicle = IceCream(flavor: orangeCreamsicle, cone: rainbowCone, size: .large, toppings: .whippedCream)
+
+orderCone(order: theOrangeCreamsicle)
+myCreamsicles.totalSales
+
+orderCone(order: cheeseCakeIce)
+myCreamsicles.totalSales
+
